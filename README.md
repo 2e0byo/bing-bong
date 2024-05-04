@@ -49,6 +49,7 @@ The doorbell SHALL respond with:
 ```json
 {
   "event": "paired",
+  "button_event_id": id,
   "button_id": id,
   "event_id": id
 }
@@ -64,7 +65,7 @@ not recieve an acknowledgment within 1 second, the request SHALL be repeated at
 least 4 times, with an exponential backoff not totalling more than 30 seconds
 accross all attempts.
 
-All packets hereafter SHALL be encrypted thusly.
+All packets hereafter SHALL be encrypted and retried thusly.
 
 ### Maintenance
 
@@ -75,6 +76,7 @@ SHALL be as follows:
 {
   "event": "status request",
   "button_id": id,
+  "button_event_id": id,
   "event_id": id
 }
 ```
@@ -140,7 +142,7 @@ recieved, or one minute has elapsed, whichever is sooner:
 }
 ```
 
-should this packet not be recieved , the button SHALL enter the
+should this packet not be recieved, the button SHALL enter the
 error state.  Likewise should no response be recieved after retries to the ring
 event, the button SHALL enter the error state.  This state SHALL be communicated
 to the user by some signal unique to it, for instance a loud siren, glowing red
